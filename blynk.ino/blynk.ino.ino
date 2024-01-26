@@ -1,6 +1,6 @@
-#define BLYNK_TEMPLATE_ID           "TMPL6UgDWdh2Y"
+#define BLYNK_TEMPLATE_ID           "COME'ON"
 #define BLYNK_TEMPLATE_NAME         "WX"
-#define BLYNK_AUTH_TOKEN            "0MuiSV8X6vCoI6ZUkee_1sgS_tGZLakB"
+#define BLYNK_AUTH_TOKEN            ":)"
 #define BLYNK_FIRMWARE_VERSION      "0.1.2"
 #define BLYNK_HEARTBEAT             30
 
