@@ -1,6 +1,6 @@
 # arkan-code-repository
 Code repository!
-- [ ] Organized
+- [x] Organized
 - [ ] Well organized
 - [ ] Done?
 > [!NOTE]
