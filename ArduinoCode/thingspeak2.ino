@@ -2,18 +2,11 @@
 #include <Wire.h>
 #include <Adafruit_BMP280.h>
 #include <DHT.h>
-#include <MQUnifiedsensor.h>
 #include <ThingSpeak.h>
 
-#define rainPin D6
+#define rainPin A0
 #define dhtPin D7
 #define dhtType DHT11
-#define placa "ESP8266"
-#define Voltage_Resolution 3.3
-#define pin A0
-#define type "MQ-135"
-#define ADC_Bit_Resolution 10
-#define RatioMQ135CleanAir 3.6
 
 unsigned long myChannelNumber = 2499370;
 const char * myWriteAPIKey = "Git command sucks";
@@ -24,7 +17,6 @@ WiFiClient  client;
 
 Adafruit_BMP280 bmp;
 DHT dht(dhtPin, dhtType);
-MQUnifiedsensor MQ135(placa, Voltage_Resolution, ADC_Bit_Resolution, pin, type);
 
 float temp = 25;
 int humid = 50;
@@ -32,25 +24,13 @@ float baro = 1013.25;
 float heat = 25;
 float dew = 13.8;
 int rssi = -60;
-float ppm = 425.38;
-float r0 = 0;
-int rdsstat = 1;
+float rain = 0;
 
 void setup() {
   WiFi.begin(ssid, pass);
   bmp.begin(0x76);
   dht.begin();
   pinMode(rainPin, INPUT);
-  MQ135.setRegressionMethod(1);
-  MQ135.setA(110.47); MQ135.setB(-2.862);
-  MQ135.setRL(10.2);
-  MQ135.init();
-  for(int i = 1; i<=10; i ++)
-  {
-    MQ135.update();
-    r0 += MQ135.calibrate(RatioMQ135CleanAir);
-  }
-  MQ135.setR0(r0/10);
   ThingSpeak.begin(client);
 }
 
@@ -61,7 +41,7 @@ void getreading() {
   heat = dht.computeHeatIndex(temp, humid);
   dew = temp - ((100 - humid)/5);
   rssi = WiFi.RSSI();
-  rdsstat = digitalRead(rainPin);
+  rdsstat = analogRead(rainPin);
   MQ135.update();
   ppm = MQ135.readSensor() + 425.38;
 }
